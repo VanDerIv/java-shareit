@@ -27,6 +27,7 @@ public class ItemMapper {
                 .available(item.getAvailable())
                 .build();
     }
+
     public Item toEntity(ItemDto itemDto, Long userId) {
         Item item = Item.builder()
                 .id(itemDto.getId())
@@ -47,6 +48,7 @@ public class ItemMapper {
 
         return item;
     }
+
     public ItemDto putch(ItemDto itemDto, ItemDto putchItemDto) {
         if (putchItemDto.getName() != null) {
             itemDto.setName(putchItemDto.getName());

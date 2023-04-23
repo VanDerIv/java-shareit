@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
     private void checkDoubleEmail(String email) {
         checkDoubleEmail(email, 0L);
     }
+
     private void checkDoubleEmail(String email, Long id) {
         Optional<User> optionalUser = userStorage.getUsers().stream()
                 .filter(u -> u.getEmail().equals(email) && u.getId() != id)
