@@ -1,9 +1,9 @@
 package ru.practicum.shareit.user.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+import ru.practicum.shareit.error.ConflictException;
+import ru.practicum.shareit.error.NotFoundException;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.storage.UserStorage;
 
@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     public User getUser(Long id) {
         Optional<User> optionalUser = userStorage.getUser(id);
-        return optionalUser.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Пользователь с id=%d не найден", id)));
+        return optionalUser.orElseThrow(() -> new NotFoundException(String.format("Пользователь с id=%d не найден", id)));
     }
 
     public User createUser(User user) {
@@ -47,8 +47,7 @@ public class UserServiceImpl implements UserService {
                 .filter(u -> u.getEmail().equals(email) && u.getId() != id)
                 .findFirst();
         if (optionalUser.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    String.format("Пользователь с email=%s уже существует", email));
+            throw new ConflictException(String.format("Пользователь с email=%s уже существует", email));
         }
     }
 }

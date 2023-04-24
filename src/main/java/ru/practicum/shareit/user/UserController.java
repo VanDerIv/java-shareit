@@ -39,7 +39,7 @@ public class UserController {
     @PatchMapping("/{id}")
     public UserDto patchUser(@RequestBody final UserDto userDto, @PathVariable final Long id) {
         UserDto oldUserDto = getUser(id);
-        UserDto newUserDto = userMapper.putch(oldUserDto, userDto);
+        UserDto newUserDto = userMapper.patch(oldUserDto, userDto);
         User newUser = userMapper.toEntity(newUserDto);
         newUser = userService.updateUser(newUser, id);
         return userMapper.toDto(newUser);

@@ -50,7 +50,7 @@ public class ItemController {
     @PatchMapping("/{id}")
     public ItemDto patchItem(@RequestBody final ItemDto itemDto, @PathVariable final Long id, @RequestHeader("X-Sharer-User-Id") Long userId) {
         ItemDto oldItemDto = getItem(id);
-        ItemDto newItemDto = itemMapper.putch(oldItemDto, itemDto);
+        ItemDto newItemDto = itemMapper.patch(oldItemDto, itemDto);
         Item newItem = itemMapper.toEntity(newItemDto, userId);
         newItem = itemService.updateItem(newItem);
         return itemMapper.toDto(newItem);

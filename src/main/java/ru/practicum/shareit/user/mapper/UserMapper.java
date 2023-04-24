@@ -1,9 +1,8 @@
 package ru.practicum.shareit.user.mapper;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
+import ru.practicum.shareit.error.ValidationException;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 
@@ -34,14 +33,14 @@ public class UserMapper {
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         if (!violations.isEmpty()) {
             for (ConstraintViolation<User> validation: violations) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, validation.getMessage());
+                throw new ValidationException(validation.getMessage());
             }
         }
 
         return user;
     }
 
-    public UserDto putch(UserDto userDto, UserDto putchUserDto) {
+    public UserDto patch(UserDto userDto, UserDto putchUserDto) {
          if (putchUserDto.getName() != null) {
              userDto.setName(putchUserDto.getName());
          }

@@ -1,9 +1,8 @@
 package ru.practicum.shareit.item.service;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+import ru.practicum.shareit.error.NotFoundException;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.storage.ItemStorage;
 import ru.practicum.shareit.user.model.User;
@@ -29,7 +28,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item getItem(Long id) {
         Optional<Item> optionalItem = itemStorage.getItem(id);
-        return optionalItem.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Вещь с id=%d не найдена", id)));
+        return optionalItem.orElseThrow(() -> new NotFoundException(String.format("Вещь с id=%d не найдена", id)));
     }
 
     @Override
@@ -41,7 +40,7 @@ public class ItemServiceImpl implements ItemService {
     public Item updateItem(Item item) {
         Item oldItem = getItem(item.getId());
         if (!item.getOwner().equals(oldItem.getOwner())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Вещь с id=%d не принадлежит пользователю %d", item.getId(), item.getOwner().getId()));
+            throw new NotFoundException(String.format("Вещь с id=%d не принадлежит пользователю %d", item.getId(), item.getOwner().getId()));
         }
         return itemStorage.updateItem(item);
     }
@@ -50,7 +49,7 @@ public class ItemServiceImpl implements ItemService {
     public void deleteItem(User user, Long id) {
         Item item = getItem(id);
         if (!item.getOwner().equals(user)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Вещь с id=%d у пользователя %d не найдена", id, user.getId()));
+            throw new NotFoundException(String.format("Вещь с id=%d у пользователя %d не найдена", id, user.getId()));
         }
         itemStorage.deleteItem(id);
     }

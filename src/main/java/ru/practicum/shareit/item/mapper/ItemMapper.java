@@ -1,9 +1,8 @@
 package ru.practicum.shareit.item.mapper;
 
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
+import ru.practicum.shareit.error.ValidationException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
@@ -42,14 +41,14 @@ public class ItemMapper {
         Set<ConstraintViolation<Item>> violations = validator.validate(item);
         if (!violations.isEmpty()) {
             for (ConstraintViolation<Item> validation: violations) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, validation.getMessage());
+                throw new ValidationException(validation.getMessage());
             }
         }
 
         return item;
     }
 
-    public ItemDto putch(ItemDto itemDto, ItemDto putchItemDto) {
+    public ItemDto patch(ItemDto itemDto, ItemDto putchItemDto) {
         if (putchItemDto.getName() != null) {
             itemDto.setName(putchItemDto.getName());
         }
