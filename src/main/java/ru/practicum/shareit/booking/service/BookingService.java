@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface BookingService {
     Booking createBooking(Booking entity);
+
     Booking approveBooking(Long id, User user, Boolean approved);
 
     Booking getBooking(Long id, User user);
