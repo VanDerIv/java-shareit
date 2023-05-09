@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class ItemServiceImpl implements ItemService {
+public class ItemServiceStorageImpl implements ItemService {
     private final ItemStorage itemStorage;
 
     @Override
