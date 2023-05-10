@@ -15,7 +15,7 @@ import java.util.Set;
 public class UserMapper {
     private final Validator validator;
 
-    public UserDto toDto(User user) {
+    public static UserDto toDto(User user) {
         return UserDto.builder()
                 .id(user.getId())
                 .email(user.getEmail())

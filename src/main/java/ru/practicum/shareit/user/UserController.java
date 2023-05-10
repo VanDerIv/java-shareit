@@ -20,20 +20,20 @@ public class UserController {
     @GetMapping
     public List<UserDto> getUsers() {
         List<User> users = userService.getUsers();
-        return users.stream().map(userMapper::toDto).collect(Collectors.toList());
+        return users.stream().map(UserMapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     public UserDto getUser(@PathVariable final Long id) {
         User user = userService.getUser(id);
-        return userMapper.toDto(user);
+        return UserMapper.toDto(user);
     }
 
     @PostMapping
     public UserDto createUser(@RequestBody final UserDto userDto) {
         User user = userMapper.toEntity(userDto);
         user = userService.createUser(user);
-        return userMapper.toDto(user);
+        return UserMapper.toDto(user);
     }
 
     @PatchMapping("/{id}")
@@ -42,7 +42,7 @@ public class UserController {
         UserDto newUserDto = userMapper.patch(oldUserDto, userDto);
         User newUser = userMapper.toEntity(newUserDto);
         newUser = userService.updateUser(newUser, id);
-        return userMapper.toDto(newUser);
+        return UserMapper.toDto(newUser);
     }
 
     @DeleteMapping("/{id}")
