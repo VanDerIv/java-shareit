@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item;
 
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.service.BookingService;
 import ru.practicum.shareit.item.dto.CommentDto;
@@ -15,12 +16,14 @@ import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;
 
+import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/items")
 @AllArgsConstructor
+@Validated
 public class ItemController {
     private final ItemService itemService;
     private final UserService userService;
@@ -30,9 +33,11 @@ public class ItemController {
     private final CommentMapper commentMapper;
 
     @GetMapping
-    public List<ItemDto> getItems(@RequestHeader("X-Sharer-User-Id") Long userId) {
+    public List<ItemDto> getItems(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                  @RequestParam(defaultValue = "0") @Min(0) Integer from,
+                                  @RequestParam(defaultValue = "10") @Min(1) Integer size) {
         User user = userService.getUser(userId);
-        List<Item> items = itemService.getUserItems(user);
+        List<Item> items = itemService.getUserItems(user, from, size);
         return items.stream().map(item -> ItemMapper.toDto(item, commentService.getItemComments(item), bookingService.getItemBookings(item)))
                 .sorted(this::compareNextBookingDate).collect(Collectors.toList());
     }
@@ -45,9 +50,12 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public List<ItemDto> getItems(@RequestHeader("X-Sharer-User-Id") Long userId, @RequestParam("text") String search) {
+    public List<ItemDto> getItems(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                  @RequestParam("text") String search,
+                                  @RequestParam(defaultValue = "0") @Min(0) Integer from,
+                                  @RequestParam(defaultValue = "10") @Min(1) Integer size) {
         User user = userService.getUser(userId);
-        List<Item> items = itemService.findAvailableItems(user, search);
+        List<Item> items = itemService.findAvailableItems(user, search, from, size);
         return items.stream().map(ItemMapper::toDto).collect(Collectors.toList());
     }
 

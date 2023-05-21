@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @Service
@@ -61,26 +62,26 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Booking> getUserBooking(User user, BookingRequestStates state) {
+    public List<Booking> getUserBooking(User user, BookingRequestStates state, Integer from, Integer size) {
         List<Booking> bookings = bookingRepository.findByBooker(user);
-        return getBookingByState(bookings, state);
+        return getBookingByState(bookings, state, from, size);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Booking> getUserItemsBookings(User user, BookingRequestStates state) {
+    public List<Booking> getUserItemsBookings(User user, BookingRequestStates state, Integer from, Integer size) {
         List<Booking> bookings = bookingRepository.findByItem_Owner(user);
-        return getBookingByState(bookings, state);
+        return getBookingByState(bookings, state, from, size);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Booking> getItemBookings(Item item) {
         List<Booking> bookings = bookingRepository.findByItem(item);
-        return getBookingByState(bookings, BookingRequestStates.ALL);
+        return getBookingByState(bookings, BookingRequestStates.ALL, 0, 100);
     }
 
-    private List<Booking> getBookingByState(List<Booking> bookings, BookingRequestStates state) {
+    private List<Booking> getBookingByState(List<Booking> bookings, BookingRequestStates state, Integer from, Integer size) {
         Stream<Booking> bookingStream = bookings.stream();
         LocalDateTime now = LocalDateTime.now();
         switch (state) {
@@ -101,7 +102,19 @@ public class BookingServiceImpl implements BookingService {
                 bookingStream = bookingStream.filter(booking -> booking.getStatus() == BookingStatus.REJECTED);
                 break;
         }
-        return bookingStream.sorted(this::compareStartDate).collect(Collectors.toList());
+
+        if (from == 0) {
+            return bookingStream.sorted(this::compareStartDate).limit(size).collect(Collectors.toList());
+        }
+
+        List<Booking> books = bookingStream.sorted(this::compareStartDate).collect(Collectors.toList());
+
+        return IntStream
+                .range(0, books.size())
+                .filter(i -> i >= from)
+                .mapToObj(books::get)
+                .limit(size)
+                .collect(Collectors.toList());
     }
 
     private int compareStartDate(Booking booking1, Booking booking2) {

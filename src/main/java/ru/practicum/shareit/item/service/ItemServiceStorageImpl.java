@@ -16,12 +16,12 @@ public class ItemServiceStorageImpl implements ItemService {
     private final ItemStorage itemStorage;
 
     @Override
-    public List<Item> getUserItems(User user) {
+    public List<Item> getUserItems(User user, Integer from, Integer size) {
         return itemStorage.getUserItems(user);
     }
 
     @Override
-    public List<Item> findAvailableItems(User user, String search) {
+    public List<Item> findAvailableItems(User user, String search, Integer from, Integer size) {
         return itemStorage.findAvailableItems(user, search);
     }
 
