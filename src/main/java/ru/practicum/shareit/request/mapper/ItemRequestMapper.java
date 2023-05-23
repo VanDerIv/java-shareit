@@ -14,18 +14,18 @@ import ru.practicum.shareit.user.service.UserService;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static ru.practicum.shareit.GlobalProperties.DATE_FORMAT;
 
 @Component("itemRequestMapper")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class ItemRequestMapper {
     private final Validator validator;
     private final UserService userService;
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
     public static ItemRequestDto toDto(ItemRequest itemRequest) {
         List<Item> items = itemRequest.getItems();

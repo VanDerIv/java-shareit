@@ -33,6 +33,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.practicum.shareit.GlobalProperties.DATE_FORMAT;
 
 @WebMvcTest(controllers = BookingController.class)
 @Import(BookingMapper.class)
@@ -48,8 +49,6 @@ public class RestBookingControllerTest {
     private ObjectMapper mapper;
     @Autowired
     private MockMvc mvc;
-
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     private final User user1 = User.builder().id(1L).name("test1").email("test1@test.ru").build();
     private final User user2 = User.builder().id(2L).name("test2").email("test2@test.ru").build();

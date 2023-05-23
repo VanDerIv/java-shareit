@@ -11,15 +11,13 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.user.dto.UserDto;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.practicum.shareit.GlobalProperties.DATE_FORMAT;
 
 
 @JsonTest
 public class JsonBookingDtoTest {
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-
     @Autowired
     private JacksonTester<BookingDto> json;
 

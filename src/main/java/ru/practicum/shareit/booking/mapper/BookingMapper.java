@@ -21,8 +21,9 @@ import ru.practicum.shareit.user.service.UserService;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Set;
+
+import static ru.practicum.shareit.GlobalProperties.DATE_FORMAT;
 
 @Component
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
@@ -30,7 +31,6 @@ public class BookingMapper {
     private final UserService userService;
     private final ItemService itemService;
     private final Validator validator;
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     public static BookingDto toDto(Booking entity) {
         ItemDto itemDto = ItemMapper.toDto(entity.getItem());
