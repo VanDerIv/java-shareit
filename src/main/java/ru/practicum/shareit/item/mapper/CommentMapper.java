@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item.mapper;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.error.ValidationException;
 import ru.practicum.shareit.item.dto.CommentDto;
@@ -14,14 +15,16 @@ import ru.practicum.shareit.user.service.UserService;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class CommentMapper {
     private final Validator validator;
     private final UserService userService;
     private final ItemService itemService;
+    private final static DateTimeFormatter TASK_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
     public static CommentDto toDto(Comment comment) {
         ItemDto itemDto = ItemMapper.toDto(comment.getItem());
@@ -30,7 +33,7 @@ public class CommentMapper {
                 .text(comment.getText())
                 .item(itemDto)
                 .authorName(comment.getAuthor().getName())
-                .created(comment.getCreated())
+                .created(comment.getCreated().format(TASK_DATE_FORMAT))
                 .build();
     }
 
@@ -40,7 +43,7 @@ public class CommentMapper {
                 .text(comment.getText())
                 .itemId(comment.getItem().getId())
                 .authorName(comment.getAuthor().getName())
-                .created(comment.getCreated())
+                .created(comment.getCreated().format(TASK_DATE_FORMAT))
                 .build();
     }
 

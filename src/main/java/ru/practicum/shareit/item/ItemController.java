@@ -33,7 +33,7 @@ public class ItemController {
     private final CommentMapper commentMapper;
 
     @GetMapping
-    public List<ItemDto> getItems(@RequestHeader("X-Sharer-User-Id") Long userId,
+    public List<ItemDto> getUserItems(@RequestHeader("X-Sharer-User-Id") Long userId,
                                   @RequestParam(defaultValue = "0") @Min(0) Integer from,
                                   @RequestParam(defaultValue = "10") @Min(1) Integer size) {
         User user = userService.getUser(userId);
@@ -50,7 +50,7 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public List<ItemDto> getItems(@RequestHeader("X-Sharer-User-Id") Long userId,
+    public List<ItemDto> findAvailableItems(@RequestHeader("X-Sharer-User-Id") Long userId,
                                   @RequestParam("text") String search,
                                   @RequestParam(defaultValue = "0") @Min(0) Integer from,
                                   @RequestParam(defaultValue = "10") @Min(1) Integer size) {

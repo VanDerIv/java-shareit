@@ -1,6 +1,7 @@
 package ru.practicum.shareit.request.mapper;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.error.ValidationException;
 import ru.practicum.shareit.item.dto.ItemDto;
@@ -13,16 +14,18 @@ import ru.practicum.shareit.user.service.UserService;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Component
-@AllArgsConstructor
+@Component("itemRequestMapper")
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class ItemRequestMapper {
     private final Validator validator;
     private final UserService userService;
+    private final static DateTimeFormatter TASK_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
     public static ItemRequestDto toDto(ItemRequest itemRequest) {
         List<Item> items = itemRequest.getItems();
@@ -36,7 +39,7 @@ public class ItemRequestMapper {
                 .id(itemRequest.getId())
                 .description(itemRequest.getDescription())
                 .requestorId(itemRequest.getRequestor().getId())
-                .created(itemRequest.getCreated())
+                .created(itemRequest.getCreated().format(TASK_DATE_FORMAT))
                 .items(itemResponseDtoList)
                 .build();
     }
