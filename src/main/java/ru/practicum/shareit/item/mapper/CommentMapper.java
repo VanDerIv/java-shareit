@@ -17,7 +17,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.util.Set;
 
-import static ru.practicum.shareit.GlobalProperties.DATE_FORMAT;
+import static ru.practicum.shareit.GlobalProperties.DATE_FORMAT_SSS;
 
 @Component
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
@@ -33,7 +33,7 @@ public class CommentMapper {
                 .text(comment.getText())
                 .item(itemDto)
                 .authorName(comment.getAuthor().getName())
-                .created(comment.getCreated().format(DATE_FORMAT))
+                .created(comment.getCreated().format(DATE_FORMAT_SSS))
                 .build();
     }
 
@@ -43,7 +43,7 @@ public class CommentMapper {
                 .text(comment.getText())
                 .itemId(comment.getItem().getId())
                 .authorName(comment.getAuthor().getName())
-                .created(comment.getCreated().format(DATE_FORMAT))
+                .created(comment.getCreated().format(DATE_FORMAT_SSS))
                 .build();
     }
 

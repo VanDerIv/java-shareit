@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.practicum.shareit.GlobalProperties.DATE_FORMAT;
 
-
 @JsonTest
 public class JsonBookingDtoTest {
     @Autowired
