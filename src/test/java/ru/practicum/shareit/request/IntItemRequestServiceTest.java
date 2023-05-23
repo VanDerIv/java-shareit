@@ -102,7 +102,7 @@ public class IntItemRequestServiceTest {
 
         assertThat(targetItemRequests, hasSize(2));
         for (ItemRequest targetItemRequest : targetItemRequests) {
-            assertThat(targetItemRequests, hasItem( allOf(
+            assertThat(targetItemRequests, hasItem(allOf(
                     hasProperty("id", notNullValue()),
                     hasProperty("description", equalTo(targetItemRequest.getDescription())),
                     hasProperty("requestor", equalTo(targetItemRequest.getRequestor())),

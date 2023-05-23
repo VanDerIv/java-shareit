@@ -161,7 +161,7 @@ public class IntCommentServiceTest {
 
         assertThat(targetComments, hasSize(2));
         for (Comment sourceComment : targetComments) {
-            assertThat(targetComments, hasItem( allOf(
+            assertThat(targetComments, hasItem(allOf(
                     hasProperty("id", notNullValue()),
                     hasProperty("text", equalTo(sourceComment.getText())),
                     hasProperty("item", equalTo(sourceComment.getItem())),

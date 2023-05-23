@@ -24,7 +24,7 @@ public class CommentMapper {
     private final Validator validator;
     private final UserService userService;
     private final ItemService itemService;
-    private final static DateTimeFormatter TASK_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     public static CommentDto toDto(Comment comment) {
         ItemDto itemDto = ItemMapper.toDto(comment.getItem());
@@ -33,7 +33,7 @@ public class CommentMapper {
                 .text(comment.getText())
                 .item(itemDto)
                 .authorName(comment.getAuthor().getName())
-                .created(comment.getCreated().format(TASK_DATE_FORMAT))
+                .created(comment.getCreated().format(DATE_FORMAT))
                 .build();
     }
 
@@ -43,7 +43,7 @@ public class CommentMapper {
                 .text(comment.getText())
                 .itemId(comment.getItem().getId())
                 .authorName(comment.getAuthor().getName())
-                .created(comment.getCreated().format(TASK_DATE_FORMAT))
+                .created(comment.getCreated().format(DATE_FORMAT))
                 .build();
     }
 

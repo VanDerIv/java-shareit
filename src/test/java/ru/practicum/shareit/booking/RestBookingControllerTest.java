@@ -49,7 +49,7 @@ public class RestBookingControllerTest {
     @Autowired
     private MockMvc mvc;
 
-    private final static DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     private final User user1 = User.builder().id(1L).name("test1").email("test1@test.ru").build();
     private final User user2 = User.builder().id(2L).name("test2").email("test2@test.ru").build();

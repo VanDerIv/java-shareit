@@ -84,7 +84,7 @@ public class IntItemServiceTest {
 
         assertThat(targetItems, hasSize(3));
         for (Item sourceItem : targetItems) {
-            assertThat(targetItems, hasItem( allOf(
+            assertThat(targetItems, hasItem(allOf(
                     hasProperty("id", notNullValue()),
                     hasProperty("name", equalTo(sourceItem.getName())),
                     hasProperty("description", equalTo(sourceItem.getDescription())),

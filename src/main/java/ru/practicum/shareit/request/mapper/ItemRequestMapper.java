@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class ItemRequestMapper {
     private final Validator validator;
     private final UserService userService;
-    private final static DateTimeFormatter TASK_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
     public static ItemRequestDto toDto(ItemRequest itemRequest) {
         List<Item> items = itemRequest.getItems();
@@ -39,7 +39,7 @@ public class ItemRequestMapper {
                 .id(itemRequest.getId())
                 .description(itemRequest.getDescription())
                 .requestorId(itemRequest.getRequestor().getId())
-                .created(itemRequest.getCreated().format(TASK_DATE_FORMAT))
+                .created(itemRequest.getCreated().format(DATE_FORMAT))
                 .items(itemResponseDtoList)
                 .build();
     }

@@ -30,7 +30,7 @@ public class BookingMapper {
     private final UserService userService;
     private final ItemService itemService;
     private final Validator validator;
-    private final static DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     public static BookingDto toDto(Booking entity) {
         ItemDto itemDto = ItemMapper.toDto(entity.getItem());
