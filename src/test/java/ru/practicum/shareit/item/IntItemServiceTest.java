@@ -25,7 +25,7 @@ import static org.hamcrest.Matchers.*;
         properties = "db.name=test",
         webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-public class IntItemServiceTest {
+class IntItemServiceTest {
     private final EntityManager em;
     private final ItemService service;
 
