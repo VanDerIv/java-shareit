@@ -2,6 +2,7 @@ package ru.practicum.shareit.booking;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingShortDto;
@@ -14,6 +15,7 @@ import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(path = "/bookings")
 @AllArgsConstructor
+@Validated
 public class BookingController {
     private final BookingMapper bookingMapper;
     private final BookingService bookingService;
@@ -53,17 +56,21 @@ public class BookingController {
 
     @GetMapping
     public List<BookingDto> getUserBookings(@RequestHeader("X-Sharer-User-Id") Long userId,
-                                            @RequestParam(defaultValue = "ALL") BookingRequestStates state) {
+                                            @RequestParam(defaultValue = "ALL") BookingRequestStates state,
+                                            @RequestParam(defaultValue = "0") @Min(0) Integer from,
+                                            @RequestParam(defaultValue = "10") @Min(1) Integer size) {
         User user = userService.getUser(userId);
-        List<Booking> bookings = bookingService.getUserBooking(user, state);
+        List<Booking> bookings = bookingService.getUserBooking(user, state, from, size);
         return bookings.stream().map(BookingMapper::toDto).collect(Collectors.toList());
     }
 
     @GetMapping("/owner")
     public List<BookingDto> getBookingsUserItems(@RequestHeader("X-Sharer-User-Id") Long userId,
-                                                 @RequestParam(defaultValue = "ALL") BookingRequestStates state) {
+                                                 @RequestParam(defaultValue = "ALL") BookingRequestStates state,
+                                                 @RequestParam(defaultValue = "0") @Min(0) Integer from,
+                                                 @RequestParam(defaultValue = "10") @Min(1) Integer size) {
         User user = userService.getUser(userId);
-        List<Booking> bookings = bookingService.getUserItemsBookings(user, state);
+        List<Booking> bookings = bookingService.getUserItemsBookings(user, state, from, size);
         return bookings.stream().map(BookingMapper::toDto).collect(Collectors.toList());
     }
 

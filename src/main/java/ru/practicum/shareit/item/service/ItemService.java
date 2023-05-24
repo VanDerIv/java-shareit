@@ -6,9 +6,9 @@ import ru.practicum.shareit.user.model.User;
 import java.util.List;
 
 public interface ItemService {
-    List<Item> getUserItems(User user);
+    List<Item> getUserItems(User user, Integer from, Integer size);
 
-    List<Item> findAvailableItems(User user, String search);
+    List<Item> findAvailableItems(User user, String search, Integer from, Integer size);
 
     Item getItem(Long id);
 

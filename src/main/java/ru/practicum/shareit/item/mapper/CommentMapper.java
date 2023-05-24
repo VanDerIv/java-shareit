@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item.mapper;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.error.ValidationException;
 import ru.practicum.shareit.item.dto.CommentDto;
@@ -16,8 +17,10 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import java.util.Set;
 
+import static ru.practicum.shareit.GlobalProperties.DATE_FORMAT_SSS;
+
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class CommentMapper {
     private final Validator validator;
     private final UserService userService;
@@ -30,7 +33,7 @@ public class CommentMapper {
                 .text(comment.getText())
                 .item(itemDto)
                 .authorName(comment.getAuthor().getName())
-                .created(comment.getCreated())
+                .created(comment.getCreated().format(DATE_FORMAT_SSS))
                 .build();
     }
 
@@ -40,7 +43,7 @@ public class CommentMapper {
                 .text(comment.getText())
                 .itemId(comment.getItem().getId())
                 .authorName(comment.getAuthor().getName())
-                .created(comment.getCreated())
+                .created(comment.getCreated().format(DATE_FORMAT_SSS))
                 .build();
     }
 

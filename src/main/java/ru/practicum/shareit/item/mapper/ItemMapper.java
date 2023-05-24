@@ -10,6 +10,8 @@ import ru.practicum.shareit.item.dto.CommentShortDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.request.model.ItemRequest;
+import ru.practicum.shareit.request.service.ItemRequestService;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;
 
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 public class ItemMapper {
     private final Validator validator;
     private final UserService userService;
+    private final ItemRequestService itemRequestService;
 
     public static ItemDto toDto(Item item) {
         return toDto(item, new ArrayList<>());
@@ -39,6 +42,7 @@ public class ItemMapper {
                 .description(item.getDescription())
                 .available(item.getAvailable())
                 .comments(commentsShortDto)
+                .requestId(item.getRequest() == null ? null : item.getRequest().getId())
                 .build();
     }
 
@@ -76,11 +80,18 @@ public class ItemMapper {
     }
 
     public Item toEntity(ItemDto itemDto, Long userId) {
+        Long requertId = itemDto.getRequestId();
+        ItemRequest itemRequest = null;
+        if (requertId != null) {
+            itemRequest = itemRequestService.getRequest(requertId);
+        }
+
         Item item = Item.builder()
                 .id(itemDto.getId())
                 .name(itemDto.getName())
                 .description(itemDto.getDescription())
                 .available(itemDto.getAvailable())
+                .request(itemRequest)
                 .build();
 
         //сделано что бы пройти тесты

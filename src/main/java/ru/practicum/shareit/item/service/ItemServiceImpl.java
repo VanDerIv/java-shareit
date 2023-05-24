@@ -2,6 +2,7 @@ package ru.practicum.shareit.item.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.error.NotFoundException;
@@ -16,20 +17,22 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 @Primary
-public class ItemServiceRepositoryImpl implements ItemService {
+public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
 
     @Override
     @Transactional(readOnly = true)
-    public List<Item> getUserItems(User user) {
-        return itemRepository.findByOwner(user);
+    public List<Item> getUserItems(User user, Integer from, Integer size) {
+        PageRequest page = PageRequest.of(from > 0 ? from / size : 0, size);
+        return itemRepository.findByOwner(user, page);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Item> findAvailableItems(User user, String search) {
+    public List<Item> findAvailableItems(User user, String search, Integer from, Integer size) {
         if (search.isEmpty() || search.isBlank()) return new ArrayList<>();
-        return itemRepository.findByAvailableTrueAndNameContainsIgnoreCaseOrDescriptionContainsIgnoreCase(search);
+        PageRequest page = PageRequest.of(from > 0 ? from / size : 0, size);
+        return itemRepository.findByAvailableTrueAndNameContainsIgnoreCaseOrDescriptionContainsIgnoreCase(search, page);
     }
 
     @Override
