@@ -32,7 +32,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    @Transactional
+    @Transactional()
     public Booking approveBooking(Long id, User user, Boolean approved) {
         Optional<Booking> optionalBooking = bookingRepository.findById(id);
         Booking booking = optionalBooking.orElseThrow(() -> new NotFoundException(String.format("Бронирование с id=%d не найдено", id)));
@@ -85,7 +85,7 @@ public class BookingServiceImpl implements BookingService {
 
     private List<Booking> getBookingByState(List<Booking> bookings, BookingRequestStates state, Integer from, Integer size) {
         Stream<Booking> bookingStream = bookings.stream();
-        LocalDateTime now = LocalDateTime.now(DATE_ZONE_ID);
+        LocalDateTime now = LocalDateTime.now();
         switch (state) {
             case CURRENT:
                 bookingStream = bookingStream.filter(booking -> booking.getStart().isBefore(now)
