@@ -57,7 +57,7 @@ public class CommentMapper {
                 .text(commentShortDto.getText())
                 .item(item)
                 .author(author)
-                .created(LocalDateTime.now(DATE_ZONE_ID))
+                .created(LocalDateTime.now())
                 .build();
 
         Set<ConstraintViolation<Comment>> violations = validator.validate(comment);

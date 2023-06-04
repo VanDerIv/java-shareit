@@ -52,7 +52,7 @@ public class ItemRequestMapper {
         ItemRequest itemRequest = ItemRequest.builder()
                 .description(itemRequestDto.getDescription())
                 .requestor(requestor)
-                .created(LocalDateTime.now(DATE_ZONE_ID))
+                .created(LocalDateTime.now())
                 .build();
 
         Set<ConstraintViolation<ItemRequest>> violations = validator.validate(itemRequest);
