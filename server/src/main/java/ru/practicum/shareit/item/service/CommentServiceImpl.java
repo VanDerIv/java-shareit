@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static ru.practicum.shareit.GlobalProperties.DATE_ZONE_ID;
-
 @Service
 @AllArgsConstructor
 public class CommentServiceImpl implements CommentService {
@@ -34,7 +32,7 @@ public class CommentServiceImpl implements CommentService {
     public Comment createComment(Comment comment) {
         if (!bookingRepository.existsByItemAndBookerAndStatusNotAndStartLessThanEqual(comment.getItem(),
                 comment.getAuthor(),
-                LocalDateTime.now(DATE_ZONE_ID))) {
+                LocalDateTime.now())) {
             throw new ValidationException(String.format("Нельзя добавить комментарий к вещи %d " +
                             "у которой пользователь %d не оставлял бронирований или бронирование еще не начато",
                     comment.getItem().getId(), comment.getAuthor().getId()));

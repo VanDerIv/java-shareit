@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 import static ru.practicum.shareit.GlobalProperties.DATE_FORMAT_SSS;
-import static ru.practicum.shareit.GlobalProperties.DATE_ZONE_ID;
 
 @Component
 @RequiredArgsConstructor(onConstructor_ = @Autowired)

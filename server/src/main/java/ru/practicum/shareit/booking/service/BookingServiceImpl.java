@@ -18,8 +18,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static ru.practicum.shareit.GlobalProperties.DATE_ZONE_ID;
-
 @Service
 @AllArgsConstructor
 public class BookingServiceImpl implements BookingService {

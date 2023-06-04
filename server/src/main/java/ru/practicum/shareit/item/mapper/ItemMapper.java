@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static ru.practicum.shareit.GlobalProperties.DATE_ZONE_ID;
-
 @Component
 @AllArgsConstructor
 public class ItemMapper {
@@ -53,7 +51,7 @@ public class ItemMapper {
 
         Booking lastBooking = null;
         Booking nextBooking = null;
-        LocalDateTime now = LocalDateTime.now(DATE_ZONE_ID);
+        LocalDateTime now = LocalDateTime.now();
         for (Booking booking: itemBookings) {
             if (booking.getStart().isAfter(now) &&
                     (booking.getStatus() == BookingStatus.WAITING ||
