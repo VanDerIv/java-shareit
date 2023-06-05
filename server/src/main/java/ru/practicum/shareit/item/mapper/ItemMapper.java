@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import ru.practicum.shareit.booking.mapper.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingStatus;
-import ru.practicum.shareit.error.ValidationException;
 import ru.practicum.shareit.item.dto.CommentShortDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Comment;
@@ -15,18 +14,14 @@ import ru.practicum.shareit.request.service.ItemRequestService;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
 public class ItemMapper {
-    private final Validator validator;
     private final UserService userService;
     private final ItemRequestService itemRequestService;
 
@@ -104,13 +99,6 @@ public class ItemMapper {
         }
         User user = userService.getUser(userId);
         item.setOwner(user);
-
-        Set<ConstraintViolation<Item>> violations = validator.validate(item);
-        if (!violations.isEmpty()) {
-            for (ConstraintViolation<Item> validation: violations) {
-                throw new ValidationException(validation.getMessage());
-            }
-        }
 
         return item;
     }

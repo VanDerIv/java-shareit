@@ -89,22 +89,6 @@ public class RestUserControllerTest {
                 .andExpect(jsonPath("$.id", notNullValue(), Long.class))
                 .andExpect(jsonPath("$.name", is(sourceUsers.get(userIndex).getName())))
                 .andExpect(jsonPath("$.email", is(sourceUsers.get(userIndex).getEmail())));
-
-        mvc.perform(post("/users")
-                        .content(mapper.writeValueAsString(userDto2))
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().is(in(List.of(400, 500))));
-
-        mvc.perform(post("/users")
-                        .content(mapper.writeValueAsString(userDto3))
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().is(in(List.of(400, 500))));
     }
 
     @Test
@@ -142,22 +126,6 @@ public class RestUserControllerTest {
                 .andExpect(jsonPath("$.id", notNullValue(), Long.class))
                 .andExpect(jsonPath("$.name", notNullValue()))
                 .andExpect(jsonPath("$.email", notNullValue()));
-
-        mvc.perform(patch("/users/3")
-                        .content(mapper.writeValueAsString(userDto3))
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().is(in(List.of(400, 500))));
-
-        mvc.perform(patch("/users/4")
-                        .content(mapper.writeValueAsString(userDto4))
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().is(in(List.of(400, 500))));
 
         mvc.perform(patch("/users/t")
                         .content(mapper.writeValueAsString(userDto1))

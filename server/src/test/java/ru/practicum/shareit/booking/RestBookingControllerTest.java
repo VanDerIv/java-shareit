@@ -165,14 +165,6 @@ public class RestBookingControllerTest {
                 .bookerId(2L)
                 .status(BookingStatus.WAITING.name())
                 .build();
-        mvc.perform(post("/bookings")
-                        .header("X-Sharer-User-Id", 2)
-                        .content(mapper.writeValueAsString(bookingShortDto2))
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().is(in(List.of(400, 500))));
 
         BookingShortDto bookingShortDto3 = BookingShortDto.builder()
                 .start(LocalDateTime.now().plusMinutes(1).format(DATE_FORMAT))
@@ -277,31 +269,6 @@ public class RestBookingControllerTest {
                 .andExpect(jsonPath("$[1].booker", notNullValue()))
                 .andExpect(jsonPath("$[1].booker.id", is(user1.getId()), Long.class))
                 .andExpect(jsonPath("$[1].status", is(sourceBookings.get(1).getStatus().name())));
-
-//        mvc.perform(get("/bookings").header("X-Sharer-User-Id", 1)
-//                        .param("from", "-1")
-//                        .param("size", "5"))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(status().is(in(List.of(400, 500))));
-//
-//        mvc.perform(get("/bookings").header("X-Sharer-User-Id", 1)
-//                        .param("from", "0")
-//                        .param("size", "0"))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(status().is(in(List.of(400, 500))));
-//
-//        mvc.perform(get("/bookings").header("X-Sharer-User-Id", 1)
-//                        .param("from", "0")
-//                        .param("size", "1"))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(status().isOk());
-//
-//        mvc.perform(get("/bookings").header("X-Sharer-User-Id", 1)
-//                        .param("from", "0")
-//                        .param("size", "1")
-//                        .param("state", "UNKNOWN"))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(status().is(in(List.of(400, 500))));
     }
 
     @Test
@@ -321,30 +288,5 @@ public class RestBookingControllerTest {
                 .andExpect(jsonPath("$[2].booker", notNullValue()))
                 .andExpect(jsonPath("$[2].booker.id", is(user3.getId()), Long.class))
                 .andExpect(jsonPath("$[2].status", is(sourceBookings.get(2).getStatus().name())));
-
-//        mvc.perform(get("/bookings").header("X-Sharer-User-Id", 1)
-//                        .param("from", "-1")
-//                        .param("size", "5"))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(status().is(in(List.of(400, 500))));
-//
-//        mvc.perform(get("/bookings").header("X-Sharer-User-Id", 1)
-//                        .param("from", "0")
-//                        .param("size", "0"))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(status().is(in(List.of(400, 500))));
-//
-//        mvc.perform(get("/bookings").header("X-Sharer-User-Id", 1)
-//                        .param("from", "0")
-//                        .param("size", "1"))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(status().isOk());
-//
-//        mvc.perform(get("/bookings").header("X-Sharer-User-Id", 1)
-//                        .param("from", "0")
-//                        .param("size", "1")
-//                        .param("state", "UNKNOWN"))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(status().is(in(List.of(400, 500))));
     }
 }

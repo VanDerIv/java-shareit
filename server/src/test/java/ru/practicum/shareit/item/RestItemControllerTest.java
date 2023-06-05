@@ -181,18 +181,6 @@ public class RestItemControllerTest {
                 .andExpect(jsonPath("$[0].comments[0].id", is(sourceComments.get(0).getId()), Long.class))
                 .andExpect(jsonPath("$[0].requestId", nullValue()));
 
-//        mvc.perform(get("/items").header("X-Sharer-User-Id", 1)
-//                        .param("from", "-1")
-//                        .param("size", "5"))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(status().is(in(List.of(400, 500))));
-//
-//        mvc.perform(get("/items").header("X-Sharer-User-Id", 1)
-//                        .param("from", "0")
-//                        .param("size", "0"))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(status().is(in(List.of(400, 500))));
-
         mvc.perform(get("/items").header("X-Sharer-User-Id", 1)
                         .param("from", "0")
                         .param("size", "1"))
@@ -219,20 +207,6 @@ public class RestItemControllerTest {
                 .andExpect(jsonPath("$[0].nextBooking", nullValue()))
                 .andExpect(jsonPath("$[0].comments", empty()))
                 .andExpect(jsonPath("$[0].requestId", nullValue()));
-
-//        mvc.perform(get("/items/search").header("X-Sharer-User-Id", 1)
-//                        .param("text", "123")
-//                        .param("from", "-1")
-//                        .param("size", "5"))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(status().is(in(List.of(400, 500))));
-//
-//        mvc.perform(get("/items/search").header("X-Sharer-User-Id", 1)
-//                        .param("text", "123")
-//                        .param("from", "0")
-//                        .param("size", "0"))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(status().is(in(List.of(400, 500))));
 
         mvc.perform(get("/items/search").header("X-Sharer-User-Id", 1)
                         .param("text", "123")
@@ -316,33 +290,6 @@ public class RestItemControllerTest {
                 .andExpect(jsonPath("$.nextBooking", nullValue()))
                 .andExpect(jsonPath("$.comments", empty()))
                 .andExpect(jsonPath("$.requestId", nullValue()));
-
-        mvc.perform(post("/items")
-                        .header("X-Sharer-User-Id", 1)
-                        .content(mapper.writeValueAsString(itemDto2))
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().is(in(List.of(400, 500))));
-
-        mvc.perform(post("/items")
-                        .header("X-Sharer-User-Id", 1)
-                        .content(mapper.writeValueAsString(itemDto3))
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().is(in(List.of(400, 500))));
-
-        mvc.perform(post("/items")
-                        .header("X-Sharer-User-Id", 1)
-                        .content(mapper.writeValueAsString(itemDto4))
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().is(in(List.of(400, 500))));
     }
 
     @Test
@@ -452,15 +399,6 @@ public class RestItemControllerTest {
                 .andExpect(jsonPath("$.created", notNullValue()))
                 .andExpect(jsonPath("$.item", notNullValue()))
                 .andExpect(jsonPath("$.item.id", is(1L), Long.class));
-
-        mvc.perform(post("/items/1/comment")
-                        .header("X-Sharer-User-Id", 1)
-                        .content(mapper.writeValueAsString(commentShortDto2))
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().is(in(List.of(400, 500))));
     }
 
 }

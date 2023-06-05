@@ -86,15 +86,6 @@ public class RestItemRequestControllerTest {
                 .andExpect(jsonPath("$.requestorId", is(sourceItems.get(userIndex).getRequestor().getId()), Long.class))
                 .andExpect(jsonPath("$.created", notNullValue()))
                 .andExpect(jsonPath("$.items", empty()));
-
-        mvc.perform(post("/requests")
-                        .header("X-Sharer-User-Id", 1)
-                        .content(mapper.writeValueAsString(itemRequestDto2))
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().is(in(List.of(400, 500))));
     }
 
     @Test
@@ -123,24 +114,6 @@ public class RestItemRequestControllerTest {
                 .andExpect(jsonPath("$[0].id", is(sourceItems.get(0).getId()), Long.class))
                 .andExpect(jsonPath("$[0].description", is(sourceItems.get(0).getDescription())))
                 .andExpect(jsonPath("$[0].requestorId", is(sourceItems.get(0).getRequestor().getId()), Long.class));
-
-//        mvc.perform(get("/requests/all").header("X-Sharer-User-Id", 1)
-//                        .param("from", "-1")
-//                        .param("size", "5"))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(status().is(in(List.of(400, 500))));
-//
-//        mvc.perform(get("/requests/all").header("X-Sharer-User-Id", 1)
-//                        .param("from", "0")
-//                        .param("size", "0"))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(status().is(in(List.of(400, 500))));
-//
-//        mvc.perform(get("/requests/all").header("X-Sharer-User-Id", 1)
-//                        .param("from", "0")
-//                        .param("size", "1"))
-//                .andDo(MockMvcResultHandlers.print())
-//                .andExpect(status().isOk());
     }
 
     @Test
